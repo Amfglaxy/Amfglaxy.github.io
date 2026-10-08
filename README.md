@@ -1,6 +1,6 @@
 # Amfglaxy 的博客
 
-这是一个从零开始的个人博客，使用 Hugo 和 PaperMod 主题。文章是本地 Markdown 文件；GitHub Pages 工作流已准备好，连接你的 GitHub 仓库后即可自动部署。
+这是一个从零开始的个人博客，使用 Hugo 和 PaperMod 主题。文章保存在本地 Markdown 文件中，网站已发布到 <https://amfglaxy.github.io/>，源码仓库是 <https://github.com/Amfglaxy/Amfglaxy.github.io>。
 
 ## 1. 本地预览
 
@@ -35,20 +35,23 @@ hugo --gc --minify
 
 此命令只构建已发布文章，产物在 `public/`，该目录不会进入 Git。博客名和首页介绍可在 `hugo.toml` 修改；个人介绍在 `content/about.md`。
 
-## 4. 发布到 GitHub Pages
+## 4. GitHub Pages 自动发布
 
-1. 在 GitHub 创建一个**公开、空白**的仓库，名称为 `Amfglaxy.github.io`。博客网址将是 <https://amfglaxy.github.io/>。
-2. 在仓库的 **Settings → Pages** 中，将 **Build and deployment → Source** 设为 **GitHub Actions**。
-3. 本地仓库和第一次提交已准备好。确认 GitHub 仓库已创建后，在 `G:\Blog` 的 PowerShell 推送：
+仓库已经创建，**Settings → Pages → Source** 已设为 **GitHub Actions**。每次向 `main` 分支推送提交，工作流都会重新构建并发布网站。可以在[仓库的 Actions 页面](https://github.com/Amfglaxy/Amfglaxy.github.io/actions)查看结果。
+
+写好文章并将 `draft` 改成 `false` 后，在 PowerShell 中运行：
 
 ```powershell
-git -c safe.directory=G:/Blog push -u origin main
+cd G:\Blog
+git -c safe.directory=G:/Blog add .
+git -c safe.directory=G:/Blog commit -m "Add a post"
+git -c safe.directory=G:/Blog push
 ```
 
-推送后可在仓库 **Actions** 页查看构建。工作流会自动按仓库的 Pages 地址设置站点 URL。
+工作流会自动按仓库的 Pages 地址设置站点 URL。
 
 ## 5. 日常写作
 
-编辑文章 → 用 `hugo server -D` 预览 → 将 `draft` 改成 `false` → `git -c safe.directory=G:/Blog add .`、`git -c safe.directory=G:/Blog commit -m "Add a post"`、`git -c safe.directory=G:/Blog push`。每次推送到 `main` 分支都会触发部署。
+编辑文章 → 用 `hugo server -D` 预览 → 将 `draft` 改成 `false` → 按上面的命令提交并推送。
 
 这里的 `-c safe.directory=G:/Blog` 只对当前 Git 命令生效，用来兼容自动化环境创建仓库时产生的目录所有权差异。
