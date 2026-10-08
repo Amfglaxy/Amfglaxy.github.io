@@ -181,7 +181,10 @@ if (!root.dataset.supabaseUrl || !root.dataset.supabaseKey) {
     message('正在发送登录链接…');
     const { error } = await client.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: new URL('library/', window.location.origin).href },
+      options: {
+        emailRedirectTo: new URL('library/', window.location.origin).href,
+        shouldCreateUser: false,
+      },
     });
     message(error ? `发送失败：${errorText(error)}` : '登录链接已发送，请查收邮件并点击链接。', error ? 'error' : 'success');
   });
