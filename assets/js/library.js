@@ -79,8 +79,8 @@ if (!root.dataset.supabaseUrl || !root.dataset.supabaseKey) {
       message(`文件已删除，但目录记录清理失败：${errorText(rowError)}`, 'error');
       return;
     }
-    message('文档已删除。', 'success');
     await refresh();
+    message('文档已删除。', 'success');
   }
 
   function renderDocument(doc) {
@@ -135,14 +135,16 @@ if (!root.dataset.supabaseUrl || !root.dataset.supabaseKey) {
     const { data: sessionData, error: sessionError } = await client.auth.getSession();
     if (sessionError) throw sessionError;
     const session = sessionData.session;
-    currentUser = session?.user || null;
-    isOwner = false;
-    if (currentUser) {
+    const user = session?.user || null;
+    let owner = false;
+    if (user) {
       const { data, error } = await client.rpc('is_library_owner');
       if (error) throw error;
-      isOwner = data === true;
+      owner = data === true;
     }
     if (number !== refreshNumber) return;
+    currentUser = user;
+    isOwner = owner;
 
     loginForm.hidden = !!currentUser;
     account.hidden = !currentUser;
@@ -236,8 +238,8 @@ if (!root.dataset.supabaseUrl || !root.dataset.supabaseKey) {
         throw rowError;
       }
       uploadForm.reset();
-      message('上传成功。', 'success');
       await refresh();
+      message('上传成功。', 'success');
     } catch (error) {
       message(`上传失败：${errorText(error)}`, 'error');
     } finally {
