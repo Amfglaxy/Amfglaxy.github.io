@@ -34,7 +34,7 @@ as $$
   select private.is_library_owner();
 $$;
 
-revoke all on function public.is_library_owner() from public;
+revoke all on function public.is_library_owner() from public, anon;
 grant execute on function public.is_library_owner() to authenticated;
 
 create table if not exists public.library_documents (
