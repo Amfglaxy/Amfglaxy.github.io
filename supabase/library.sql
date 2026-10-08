@@ -7,7 +7,7 @@ create table if not exists private.library_owners (
   user_id uuid primary key references auth.users(id) on delete cascade
 );
 
-create or replace function public.is_library_owner()
+create or replace function private.is_library_owner()
 returns boolean
 language sql
 stable
@@ -20,8 +20,22 @@ as $$
   );
 $$;
 
+revoke all on function private.is_library_owner() from public;
+grant usage on schema private to authenticated;
+grant execute on function private.is_library_owner() to authenticated;
+
+create or replace function public.is_library_owner()
+returns boolean
+language sql
+stable
+security invoker
+set search_path = ''
+as $$
+  select private.is_library_owner();
+$$;
+
 revoke all on function public.is_library_owner() from public;
-grant execute on function public.is_library_owner() to anon, authenticated;
+grant execute on function public.is_library_owner() to authenticated;
 
 create table if not exists public.library_documents (
   id uuid primary key,
@@ -47,8 +61,14 @@ grant select on public.library_documents to anon, authenticated;
 grant insert, delete on public.library_documents to authenticated;
 
 drop policy if exists "Read public or owned documents" on public.library_documents;
-create policy "Read public or owned documents"
-on public.library_documents for select to anon, authenticated
+drop policy if exists "Visitors read public documents" on public.library_documents;
+create policy "Visitors read public documents"
+on public.library_documents for select to anon
+using (visibility = 'public');
+
+drop policy if exists "Owner reads public and private documents" on public.library_documents;
+create policy "Owner reads public and private documents"
+on public.library_documents for select to authenticated
 using (
   visibility = 'public'
   or (owner_id = (select auth.uid()) and (select public.is_library_owner()))
