@@ -1,0 +1,60 @@
+baseURL = 'https://amfglaxy.github.io/'
+locale = 'zh-CN'
+defaultContentLanguage = 'zh'
+title = 'Amfglaxy'
+theme = 'PaperMod'
+
+[languages.zh]
+  label = '简体中文'
+  locale = 'zh-CN'
+
+[pagination]
+  pagerSize = 10
+
+[outputs]
+  home = ['HTML', 'RSS', 'JSON']
+
+[params]
+  description = 'Amfglaxy 的个人博客，记录想法、实践与发现。'
+  author = 'Amfglaxy'
+  defaultTheme = 'auto'
+  ShowReadingTime = true
+  ShowBreadCrumbs = true
+  ShowPostNavLinks = true
+  ShowCodeCopyButtons = true
+  ShowToc = true
+  TocOpen = false
+
+  [params.homeInfoParams]
+    Title = '你好，这里是 Amfglaxy 👋'
+    Content = '一个刚刚开始的个人博客。以后，我会在这里记录想法、实践与发现。'
+
+[[menu.main]]
+  name = '文章'
+  url = '/posts/'
+  weight = 10
+
+[[menu.main]]
+  name = '分类'
+  url = '/categories/'
+  weight = 20
+
+[[menu.main]]
+  name = '标签'
+  url = '/tags/'
+  weight = 30
+
+[[menu.main]]
+  name = '归档'
+  url = '/archives/'
+  weight = 40
+
+[[menu.main]]
+  name = '搜索'
+  url = '/search/'
+  weight = 50
+
+[[menu.main]]
+  name = '关于'
+  url = '/about/'
+  weight = 60
