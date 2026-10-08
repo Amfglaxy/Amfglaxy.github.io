@@ -1,0 +1,21 @@
+.library { display: grid; gap: 1.25rem; margin: 1.75rem 0; }
+.library-panel { padding: 1.25rem; border: 1px solid var(--border); border-radius: 12px; background: var(--entry); }
+.library-panel h2 { margin: 0 0 .5rem; font-size: 1.35rem; }
+.library-panel p { color: var(--secondary); margin: 0 0 1rem; }
+.library-status { min-height: 1.5rem; color: var(--secondary); }
+.library-status[data-kind="error"] { color: #b42318; }
+.library-status[data-kind="success"] { color: #14804a; }
+.library-list { display: grid; gap: .75rem; }
+.library-item { padding: .9rem 1rem; border: 1px solid var(--border); border-radius: 9px; }
+.library-item h3 { margin: 0 0 .25rem; font-size: 1.05rem; }
+.library-meta { color: var(--secondary); font-size: .85rem; }
+.library-item p { margin: .5rem 0; color: var(--primary); white-space: pre-wrap; overflow-wrap: anywhere; }
+.library-actions { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; margin-top: .6rem; }
+.library-actions a { color: var(--theme); background: var(--primary); border-radius: 7px; padding: .35rem .7rem; }
+.library-actions button, .library-secondary { border: 1px solid var(--border); background: transparent; color: var(--primary); border-radius: 7px; padding: .35rem .7rem; cursor: pointer; }
+.library-form { display: grid; gap: .65rem; max-width: 33rem; }
+.library-form label { font-weight: 600; margin-top: .25rem; }
+.library-form input, .library-form textarea, .library-form select { width: 100%; border: 1px solid var(--border); border-radius: 7px; background: var(--theme); color: var(--primary); padding: .6rem .7rem; }
+.library-form button { justify-self: start; background: var(--primary); color: var(--theme); border-radius: 7px; padding: .55rem 1rem; cursor: pointer; }
+.library-form button:disabled { opacity: .6; cursor: wait; }
+.library-note { color: var(--secondary); }

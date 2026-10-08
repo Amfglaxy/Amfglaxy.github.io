@@ -55,3 +55,29 @@ git -c safe.directory=G:/Blog push
 编辑文章 → 用 `hugo server -D` 预览 → 将 `draft` 改成 `false` → 按上面的命令提交并推送。
 
 这里的 `-c safe.directory=G:/Blog` 只对当前 Git 命令生效，用来兼容自动化环境创建仓库时产生的目录所有权差异。
+
+## 6. 网页文档库与隐私空间
+
+[文档库](https://amfglaxy.github.io/library/)允许站点主人在网页中上传 PDF、HTML、Word、Excel 和 PowerPoint 文件。每个文件不能超过 50 MB。上传时默认选择“仅自己可见”；如果改为“公开”，文件和目录信息对所有访客开放。HTML 文件一律作为附件下载，不在博客页面中执行。
+
+文档不保存在这个 Git 仓库或 GitHub Pages 中。元数据与文件存放在 Supabase 项目 `amfglaxy-blog`。公开文件使用 `library-public` 桶，私有文件使用 `library-private` 桶；数据库和存储权限配置在 [`supabase/library.sql`](supabase/library.sql)。登录使用邮箱一次性链接，只有在 `private.library_owners` 中登记的 Supabase Auth 用户能上传和读取私有文件。网页中只包含可公开的 publishable key，**不要把数据库密码、secret/service_role key、私有文件或登录链接提交到仓库**。
+
+首次启用时，在 Supabase SQL Editor 执行 `supabase/library.sql`，并在 Authentication → URL Configuration 将 Site URL 与 Redirect URL 设为 `https://amfglaxy.github.io/library/`。用你在 Supabase 组织中的邮箱从文档库页面首次登录后，在 Authentication → Users 复制该用户的 UUID，并在 SQL Editor 执行：
+
+```sql
+insert into private.library_owners (user_id)
+values ('在此填入你的 Auth 用户 UUID')
+on conflict do nothing;
+```
+
+登记后刷新文档库页面，即可看到上传表单和隐私空间。建议随后在 Authentication → Sign In / Providers 关闭新用户注册。内置邮件服务的发送额度较低；若将来需要频繁登录，可在 Supabase 配置自有 SMTP 服务。
+
+本地预览文档库前，需要先构建浏览器脚本：
+
+```powershell
+pnpm install
+pnpm run build:library
+hugo server -D
+```
+
+GitHub Actions 会在发布时自动安装依赖并构建脚本。修改 `assets/js/library.js` 后，本地再次运行 `pnpm run build:library` 才能在预览中看到新脚本。

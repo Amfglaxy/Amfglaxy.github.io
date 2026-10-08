@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "scripts": {
+    "build:library": "esbuild assets/js/library.js --bundle --minify --format=esm --target=es2020 --outfile=static/js/library.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  },
+  "packageManager": "pnpm@11.25.0"
+}

@@ -25,6 +25,10 @@ theme = 'PaperMod'
   ShowToc = true
   TocOpen = false
 
+  [params.library]
+    supabaseURL = 'https://zqtfnbdedbyfufnutlul.supabase.co'
+    publishableKey = 'sb_publishable_0_oel5QviSfbTUhYE-OH-Q_fdYhg_Le'
+
   [params.homeInfoParams]
     Title = '你好，这里是 Amfglaxy 👋'
     Content = '一个刚刚开始的个人博客。以后，我会在这里记录想法、实践与发现。'
@@ -53,6 +57,11 @@ theme = 'PaperMod'
   name = '搜索'
   url = '/search/'
   weight = 50
+
+[[menu.main]]
+  name = '文档库'
+  url = '/library/'
+  weight = 55
 
 [[menu.main]]
   name = '关于'

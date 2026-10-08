@@ -30,6 +30,23 @@ jobs:
           hugo-version: '0.167.0'
           extended: true
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.25.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+
+      - name: Install frontend dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build document library
+        run: pnpm run build:library
+
       - name: Configure GitHub Pages
         id: pages
         uses: actions/configure-pages@v6

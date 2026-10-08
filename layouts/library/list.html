@@ -1,0 +1,60 @@
+{{ define "main" }}
+<header class="page-header">
+  <h1>{{ .Title }}</h1>
+  <div class="post-description">{{ .Description }}</div>
+</header>
+
+<div class="library" id="library-app"
+  data-supabase-url="{{ site.Params.library.supabaseURL }}"
+  data-supabase-key="{{ site.Params.library.publishableKey }}">
+  <p id="library-status" class="library-status" role="status" aria-live="polite">正在加载文档库…</p>
+
+  <section class="library-panel" aria-labelledby="public-title">
+    <h2 id="public-title">公开文档</h2>
+    <p>所有访客都可以下载这些文档。</p>
+    <div id="public-documents" class="library-list"></div>
+  </section>
+
+  <section class="library-panel" aria-labelledby="private-title">
+    <h2 id="private-title">隐私空间</h2>
+    <p>私有文件存放在受权限控制的存储桶中，仅你的账号能读取。</p>
+    <div id="private-locked" class="library-note">登录后查看私有文档。</div>
+    <div id="private-documents" class="library-list" hidden></div>
+  </section>
+
+  <section class="library-panel" id="library-auth-panel" aria-labelledby="auth-title">
+    <h2 id="auth-title">登录</h2>
+    <p>输入邮箱，接收一次性登录链接。只有已设为文档库主人的账号能上传和查看私有文件。</p>
+    <form id="library-login-form" class="library-form">
+      <label for="library-email">邮箱</label>
+      <input id="library-email" name="email" type="email" autocomplete="email" required>
+      <button type="submit">发送登录链接</button>
+    </form>
+    <div id="library-account" hidden>
+      <p>已登录：<span id="library-account-email"></span></p>
+      <button id="library-signout" type="button" class="library-secondary">退出登录</button>
+    </div>
+  </section>
+
+  <section class="library-panel" id="library-upload-panel" aria-labelledby="upload-title" hidden>
+    <h2 id="upload-title">上传文档</h2>
+    <p>支持 PDF、HTML、Word、Excel 和 PowerPoint；单个文件最多 50 MB。选择“公开”后，任何人都能下载。</p>
+    <form id="library-upload-form" class="library-form">
+      <label for="library-title">标题</label>
+      <input id="library-title" name="title" maxlength="200" required>
+      <label for="library-description">说明（可选）</label>
+      <textarea id="library-description" name="description" maxlength="2000" rows="3"></textarea>
+      <label for="library-visibility">可见范围</label>
+      <select id="library-visibility" name="visibility">
+        <option value="private" selected>仅自己可见</option>
+        <option value="public">公开</option>
+      </select>
+      <label for="library-file">文件</label>
+      <input id="library-file" name="file" type="file" accept=".pdf,.html,.htm,.doc,.docx,.xls,.xlsx,.ppt,.pptx" required>
+      <button id="library-upload-button" type="submit">上传</button>
+    </form>
+  </section>
+</div>
+
+<script type="module" src="{{ "js/library.js" | relURL }}"></script>
+{{ end }}
