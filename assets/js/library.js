@@ -227,7 +227,8 @@ if (!root.dataset.supabaseUrl || !root.dataset.supabaseKey) {
     uploadButton.disabled = true;
     message('正在上传…');
     try {
-      const { error: uploadError } = await client.storage.from(bucket).upload(path, file, {
+      const attachment = new Blob([file], { type: 'application/octet-stream' });
+      const { error: uploadError } = await client.storage.from(bucket).upload(path, attachment, {
         contentType: 'application/octet-stream',
         upsert: false,
       });
